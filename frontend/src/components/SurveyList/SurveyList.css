@@ -1,0 +1,44 @@
+.survey-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.filter-type {
+  margin-bottom: 20px;
+}
+
+.survey-list table {
+  border-collapse: collapse;
+  width: 80%;
+  margin-top: 20px;
+}
+
+.survey-list th, .survey-list td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.survey-list tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.survey-list th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+.filter-type label {
+  margin-right: 10px;
+}
+
+.filter-type select {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}

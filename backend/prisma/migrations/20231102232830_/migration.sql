@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "surveys" ALTER COLUMN "dateEnd" SET DATA TYPE DATE,
+ALTER COLUMN "dateSent" SET DATA TYPE DATE;

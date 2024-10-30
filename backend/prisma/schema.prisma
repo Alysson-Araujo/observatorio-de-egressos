@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+//Criar uma migration
+// yarn prisma migrate dev
+model Egresso {
+    id                        String            @id @default(uuid())
+    name                      String
+    email                     String            @unique
+    year_of_entry             String
+    year_of_conclusion        String?
+    matricula                 String            @unique
+    course                    String
+    participatedInTheResearch Boolean           @default(false)
+    created_at                DateTime?         @default(now())
+    updated_at                DateTime?         @default(now())
+    survey_answered           Survey_Answered[]
+
+    @@map("egressos")
+}
+
+model User {
+    id          String    @id @default(uuid())
+    name        String
+    email       String    @unique
+    password    String
+    courseAdmin String
+    created_at  DateTime? @default(now())
+    updated_at  DateTime? @default(now())
+
+    @@map("users")
+}
+
+model Survey {
+    id              String            @id @default(uuid())
+    linkSurvey      String
+    linkSheet       String
+    surveyType      SurveyType
+    courseName      String
+    timeAvailable   Int?
+    textEmail       String?
+    dateSent        DateTime? @db.Date
+    dateEnd         DateTime? @db.Date
+    created_at      DateTime?         @default(now())
+    updated_at      DateTime?         @default(now())
+    survey_answered Survey_Answered[]
+
+    @@map("surveys")
+}
+
+model Survey_Answered {
+    id                                           String   @id @default(uuid())
+    egresso                                      Egresso  @relation(fields: [egressoId], references: [id])
+    egressoId                                    String
+    survey                                       Survey   @relation(fields: [surveyId], references: [id])
+    surveyId                                     String
+    nomeCompleto                                 String
+    emailRecebeuFormulario                       String // Digite seu e-mail (o mesmo que você recebeu este formulário)
+    emailNovoParaFormulario                      String? // Além do e-mail informado acima, você possui outro por onde deseja receber futuras comunicações das coordenações de curso da UFC-Quixadá?
+    cursoDeGraduacaoFinalizado                   String // 1. Qual curso de graduação você finalizou na Universidade Federal do Ceará - Campus Quixadá?
+    anoDeIngresso                                String // 2. Qual o ano e semestre que você ingressou na UFC - Quixadá?
+    anoDeConclusao                               String // 3. Qual o ano e semestre que você concluiu o curso?
+    quantidadeDeSemestres                        Int // 4. Quantos semestres você precisou para concluir o curso?
+    duranteGraduacaoTrabalhandoEstagiando        String // 5. Durante a graduação, você já estava trabalhando ou estagiando em uma área relacionada ao curso que você se graduou?
+    cursoAjudouEAjudaEmpregoAtual                String // 6. O curso me ajudou, e ainda ajuda, com minhas atividades no meu atual emprego?
+    encontreiEmpregoRapidamenteConcluidoCurso    String // 7. Eu encontrei, rapidamente, um emprego na área relacionada ao curso de graduação após ter o concluído?
+    estouTrabalhandoAtualmenteFormacaoAcademica  String // 8. Atualmente, estou trabalhando na área da minha formação acadêmica?
+    areasDeTrabalhoFormacao                      String[] // 9. Caso a resposta da pergunta anterior seja 'Sim', em qual área da formação você está trabalhando atualmente?
+    faixaSalarial                                String? // 10. Se você estiver trabalhando, qual faixa de salário você possui atualmente?
+    estaRealizandoPosGraduacao                   String // 11. Atualmente, você está realizando algo na área acadêmica como mestrado ou doutorado que esteja relacionado com a sua área de formação?
+    empresaTrabalhandoAtualmente                 String? // 12. Em qual empresa você está trabalhando atualmente?
+    cargoAtualNaEmpresa                          String? // 13. Qual o cargo que você ocupa atualmente nesta empresa?
+    linkPefilLinkedin                            String? // 14. Você possui uma página no LinkedIn? Se sim, informe-a abaixo.
+    avaliacaoInfraestruturaCursoDuranteGraduacao String // 15. Como você avalia a infraestrutura disponível para o curso durante a sua graduação?
+    avaliacaoCorpoDocenteCursoDuranteGraducacao  String // 16. Como você avalia ao corpo docente do curso que você teve contato durante a sua graduação?
+    avaliacaoDedicacaoCursoDuranteGraduacao      String // 17. Como você avalia a sua dedicação ao curso durante a graduação?
+    comentariosSobreOCursoDuranteGraduacao       String? // 18. Utilize o espaço abaixo para deixar alguma sugestão e/ou crítica sobre a formação recebida durante a graduação. São sempre bem-vindas.
+    AvaliacaoEstruturaCurricularDoCursoConcluido String // 19. Como você avalia a estrutura curricular (disciplinas e atividades) do curso que você realizou?
+
+    data_survey DateTime? @db.Timestamp
+
+    @@map("surveys_answered")
+}
+
+enum SurveyType {
+    NewEgresso
+    UpdateEgresso
+}
+
+enum CourseName {
+    EngenhariaDeSoftware
+    CienciaDaComputacao
+    SistemasDeInformacao
+    EngenhariaDaComputacao
+    DesignDigital
+    RedesDeComputadores
+}

@@ -1,0 +1,12 @@
+{
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/index.html",
+        "headers": {
+          "Access-Control-Allow-Origin": "http://ec2-44-203-255-77.compute-1.amazonaws.com:3000"
+        }
+      }
+    ]
+  }
+  

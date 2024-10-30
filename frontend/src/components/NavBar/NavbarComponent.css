@@ -1,0 +1,28 @@
+.navbar {
+    background-color: aliceblue;
+    top: 0;
+    width: 100%;
+    margin: 0; /* Remova qualquer margem padrão */
+    margin-right: 0%;
+    font-family: 'Times New Roman', Times, serif !important;
+    font-size: 20px;
+    
+}
+
+.brand {
+    font-size: 22px;
+    font-weight: bold;
+    margin-left: 3% ;
+}
+
+.abc{
+    width: 100%;
+}
+
+.custom-dropdown > a {
+    color: white !important;
+  }
+
+  .navbar-link {
+    margin-right: 100px; 
+  }
